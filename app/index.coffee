@@ -10,6 +10,9 @@ module.exports = class DudeGenerator extends yeoman.generators.Base
       @installDependencies skipInstall: options['skip-install']
 
     @pkg = JSON.parse @readFileAsString path.join __dirname, '../package.json'
+    @clientDependencies = []
+    @serverDependencies = []
+    @serverDevDependencies = []
 
   askFor: ->
     cb = @async()
@@ -30,14 +33,25 @@ module.exports = class DudeGenerator extends yeoman.generators.Base
       cb()
 
   projectfiles: ->
-    @copy '_package.json', 'package.json'
-    @copy '_bower.json', 'bower.json'
     @copy 'editorconfig', '.editorconfig'
     @copy 'jshintrc', '.jshintrc'
+    @copy 'bowerrc', '.bowerrc'
 
   app: ->
     components.global.setup.call @
 
     console.log @framework
-    components.frameworks[@framework].setup.call @,
+    framework = components.frameworks[@framework]
+    framework.setup.call @,
       language: @language
+
+    dependencies = framework.loadDependencies()
+
+    @clientDependencies[dep] = true for dep in dependencies.client
+
+    console.log @clientDependencies
+
+
+  dependencies: ->
+    @copy '_package.json', 'package.json'
+    @copy '_bower.json', 'bower.json'

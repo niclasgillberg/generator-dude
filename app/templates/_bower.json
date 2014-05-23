@@ -1,6 +1,9 @@
 {
   "name": "package",
   "version": "0.0.0",
-  "dependencies": {}
+  "dependencies": {<% if(clientDependencies.ember){%>
+    "ember": "~1.5",
+    "ember-data": "~1.0.0-beta.7" <% } %>
+  }
 }
 

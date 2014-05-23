@@ -10,3 +10,9 @@ module.exports =
 
     lang = options.language || 'js'
 
+    @copy "../components/ember/files/#{lang}/application.#{lang}", "src/client/application.#{lang}"
+
+  loadDependencies: (options) ->
+    clientDependencies = ['ember']
+
+    return client: clientDependencies

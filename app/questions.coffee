@@ -50,6 +50,6 @@ module.exports =
     ,
       key: 'c'
       name: 'CoffeeScript'
-      value: 'cs'
+      value: 'coffee'
     ]
     default: 0
