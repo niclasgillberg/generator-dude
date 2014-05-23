@@ -1,4 +1,4 @@
-# generator-dude [![Build Status](https://secure.travis-ci.org/niclassahlin/generator-dude.png?branch=master)](https://travis-ci.org/niclassahlin/generator-dude)
+# generator-dude
 
 A generator for [Yeoman](http://yeoman.io).
 
@@ -23,10 +23,10 @@ $ npm install -g yo
 
 Yeoman travels light. He didn't pack any generators when he moved in. You can think of a generator like a plug-in. You get to choose what type of application you wish to create, such as a Backbone application or even a Chrome extension.
 
-To install generator-dude from npm, run:
+To install generator-dude, clone the repository. Then, in the root of the repository, link it to `npm` by running:
 
 ```
-$ npm install -g generator-dude
+$ npm link
 ```
 
 Finally, initiate the generator:
