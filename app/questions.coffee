@@ -16,7 +16,7 @@ module.exports =
       name: 'Ember'
       value: 'ember'
     ]
-    default: 1
+    default: 0
   whichPreprocessor:
     type: 'list'
     name: 'preprocessor'
@@ -34,7 +34,21 @@ module.exports =
       name: 'Stylus'
       value: 'styl'
     ]
-    default: 0
+    default: 2
+  whichCssFramework:
+    type: 'list'
+    name: 'cssFramework'
+    message: 'Your preferred CSS framework?'
+    choices: [
+      key: 'b'
+      name: 'Bootstrap'
+      value: 'bootstrap'
+    ,
+      key: 'f'
+      name: 'Foundation'
+      value: 'foundation'
+    ]
+    default: 1
   useExpress:
     type: 'confirm'
     name: 'useExpress'
@@ -52,4 +66,4 @@ module.exports =
       name: 'CoffeeScript'
       value: 'coffee'
     ]
-    default: 0
+    default: 1

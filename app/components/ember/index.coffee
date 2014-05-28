@@ -12,7 +12,14 @@ module.exports =
 
     @copy "../components/ember/files/#{lang}/application.#{lang}", "src/client/application.#{lang}"
 
-  loadDependencies: (options) ->
-    clientDependencies = ['ember']
+    if !options.useServer
+      @copy '../components/ember/files/index.html', 'src/client/index.html'
 
-    return client: clientDependencies
+  loadDependencies: (options) ->
+    client = ['ember']
+    devServer = ['grunt-ember-templates', 'ember']
+
+    return client: client, server: [], devClient: [], devServer: devServer
+
+  loadTasks: (options) ->
+    return ['ember-templates']

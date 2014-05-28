@@ -1,9 +1,29 @@
 {
   "name": "package",
   "version": "0.0.0",
-  "dependencies": {<% if(clientDependencies.ember){%>
+  "main": "dist/client/js/app.js",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "/vendor",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+<% if(framework == 'ember'){%>
     "ember": "~1.5",
-    "ember-data": "~1.0.0-beta.7" <% } %>
+    "ember-data": "~1.0.0-beta.7",
+<% } %>
+<% if(framework == 'angular'){%>
+    "angular": "~1.2.16",
+    "angular-resource": "~1.2.16",
+    "angular-ui-router": "~0.2.10",
+<%}%>
+<% if(cssFramework == 'foundation'){%>
+    "foundation": "~5.2.2"
+<%}%>
   }
 }
 

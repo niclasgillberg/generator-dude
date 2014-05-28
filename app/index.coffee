@@ -12,7 +12,8 @@ module.exports = class DudeGenerator extends yeoman.generators.Base
     @pkg = JSON.parse @readFileAsString path.join __dirname, '../package.json'
     @clientDependencies = []
     @serverDependencies = []
-    @serverDevDependencies = []
+    @devServerDependencies = []
+    @tasks = []
 
   askFor: ->
     cb = @async()
@@ -23,12 +24,14 @@ module.exports = class DudeGenerator extends yeoman.generators.Base
       questions.whichLanguage,
       questions.whichJsFramework,
       questions.whichPreprocessor,
+      questions.whichCssFramework,
       questions.useExpress
     ]
     @prompt prompts, (props) =>
       @language = props.language
       @framework = props.jsFramework
       @preprocessor = props.preprocessor
+      @cssFramework = props.cssFramework
       @useExpress = props.useExpress
       cb()
 
@@ -40,17 +43,27 @@ module.exports = class DudeGenerator extends yeoman.generators.Base
   app: ->
     components.global.setup.call @
 
-    console.log @framework
+    if @useExpress
+      components.server.express.setup.call @,
+        language: @language
+        framework: @framework
+
+    preprocessor = components.preprocessors[@preprocessor]
+    preprocessor.setup.call @
+
     framework = components.frameworks[@framework]
     framework.setup.call @,
       language: @language
+      useServer: @useExpress
 
     dependencies = framework.loadDependencies()
 
     @clientDependencies[dep] = true for dep in dependencies.client
+    @devServerDependencies[dep] = true for dep in dependencies.devServer
 
-    console.log @clientDependencies
+    @tasks[task] = true for task in framework.loadTasks.call @
 
+    @template '_Gruntfile.coffee', 'Gruntfile.coffee'
 
   dependencies: ->
     @copy '_package.json', 'package.json'
