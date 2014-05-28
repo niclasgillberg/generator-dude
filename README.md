@@ -29,11 +29,27 @@ To install generator-dude, clone the repository. Then, in the root of the reposi
 $ npm link
 ```
 
-Finally, initiate the generator:
+Then, initiate the generator:
 
 ```
 $ yo dude
 ```
+
+When you have made your choices, Yeoman runs `npm install` and `bower install` for you. 
+
+To run the template, build the application once with:
+
+```
+$ grunt build
+```
+
+This will compile the sources and create the runtime files. Then, run:
+
+```
+$ grunt
+```
+
+This starts the web server and watches the files for changes. All you need to do is to start coding.
 
 ### Getting To Know Yeoman
 
