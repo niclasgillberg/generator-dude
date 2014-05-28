@@ -10,10 +10,16 @@ module.exports = class DudeGenerator extends yeoman.generators.Base
       @installDependencies
         skipInstall: options['skip-install']
         callback: =>
-          this.emit 'dependenciesInstalled'
+          @emit 'dependenciesInstalled'
 
     @on 'dependenciesInstalled', ->
-      @spawnCommand 'grunt', ['build']
+      @spawnCommand('grunt', ['build']).on 'close', =>
+        @emit 'initialBuildComplete'
+    @on 'initialBuildComplete', ->
+      @spawnCommand('git', ['init']).on 'close', =>
+        @emit 'gitInitialized'
+    @on 'gitInitialized', ->
+      @spawnCommand 'git', ['add', '.']
     @pkg = JSON.parse @readFileAsString path.join __dirname, '../package.json'
     @clientDependencies = []
     @serverDependencies = []
@@ -43,6 +49,7 @@ module.exports = class DudeGenerator extends yeoman.generators.Base
   projectfiles: ->
     @copy 'editorconfig', '.editorconfig'
     @copy 'jshintrc', '.jshintrc'
+    @copy 'gitignore', '.gitignore'
 
   app: ->
     components.global.setup.call @
