@@ -1,3 +1,4 @@
-{
-  "directory": "vendor"
+{<% if(useExpress){%>
+  "directory": "vendor"<%} else {%>
+  "directory": "dist/client/vendor"<%}%>
 }

@@ -27,7 +27,7 @@ module.exports = (grunt) ->
           atBegin: true
           livereload: true
       copyViews:
-        files: ['src/server/views/**/*.jade']
+        files: [<%if (useExpress){%>'src/server/views/**/*.jade'<%} else { %>'src/client/index/html'<%}%>]
         tasks: ['copy:views']
         options:
           atBegin: true
@@ -44,7 +44,7 @@ module.exports = (grunt) ->
 
     concurrent:
       dev:
-        tasks: ['nodemon:dev', 'watch']
+        tasks: [<%if (useExpress){%>'nodemon:dev', <%}%>'watch']
         options:
           logConcurrentOutput: true
 
@@ -53,7 +53,7 @@ module.exports = (grunt) ->
         files:
           'dist/client/css/application.css': 'src/client/styles/application.styl'
 
-    nodemon:
+    <%if (useExpress){%>nodemon:
       dev:
         script: 'dist/server/app.js'
         options:
@@ -61,7 +61,7 @@ module.exports = (grunt) ->
             PORT: 8888
           watch: ['dist/server']
 
-    coffee:
+    <%}%>coffee:
       server:
         files: [
           cwd: 'src/server'
@@ -84,13 +84,15 @@ module.exports = (grunt) ->
 
     copy:
       views:
-        files: [
+        files: <%if (useExpress){%>[
           cwd: 'src/server/views'
           src: '**/*.jade'
           dest: 'dist/server/views'
           expand: true
-        ]
+        ]<%} else { %>
+          'dist/client/index.html': 'src/client/index.html'
         <%}%>
+<%}%>
 
 
 <%if(framework == 'angular'){%>

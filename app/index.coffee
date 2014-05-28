@@ -7,8 +7,13 @@ module.exports = class DudeGenerator extends yeoman.generators.Base
   constructor: (args, options, config) ->
     yeoman.generators.Base.apply this, arguments
     @on 'end', ->
-      @installDependencies skipInstall: options['skip-install']
+      @installDependencies
+        skipInstall: options['skip-install']
+        callback: =>
+          this.emit 'dependenciesInstalled'
 
+    @on 'dependenciesInstalled', ->
+      @spawnCommand 'grunt', ['build']
     @pkg = JSON.parse @readFileAsString path.join __dirname, '../package.json'
     @clientDependencies = []
     @serverDependencies = []
@@ -38,7 +43,6 @@ module.exports = class DudeGenerator extends yeoman.generators.Base
   projectfiles: ->
     @copy 'editorconfig', '.editorconfig'
     @copy 'jshintrc', '.jshintrc'
-    @copy 'bowerrc', '.bowerrc'
 
   app: ->
     components.global.setup.call @
@@ -67,4 +71,5 @@ module.exports = class DudeGenerator extends yeoman.generators.Base
 
   dependencies: ->
     @copy '_package.json', 'package.json'
+    @copy 'bowerrc', '.bowerrc'
     @copy '_bower.json', 'bower.json'

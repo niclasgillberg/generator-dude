@@ -35,15 +35,9 @@ Then, initiate the generator:
 $ yo dude
 ```
 
-When you have made your choices, Yeoman runs `npm install` and `bower install` for you. 
+When you have made your choices, Yeoman runs `npm install` and `bower install` for you, as well as compiles the sample code. 
 
-To run the template, build the application once with:
-
-```
-$ grunt build
-```
-
-This will compile the sources and create the runtime files. Then, run:
+To run the template, run:
 
 ```
 $ grunt
